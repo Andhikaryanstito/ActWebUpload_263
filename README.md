@@ -10,6 +10,7 @@
 
 ### 1. Sebelum Unggah (Tampilan Awal)
 <img width="1919" height="904" alt="image" src="https://github.com/user-attachments/assets/7948a367-c4d5-499e-bf83-2963dfcdf15a" />
+<img width="1919" height="906" alt="image" src="https://github.com/user-attachments/assets/4da38b43-9236-4be2-8c32-9b91d18c4200" />
 
 
 ### 2. Live Preview Gambar 
