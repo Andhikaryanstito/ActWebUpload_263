@@ -1,0 +1,423 @@
+/* ==========================================================================
+   1. GLOBAL RESET & LIQUID MESH VARIABLES
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    /* Color Palette */
+    --bg-base: #f8fafc;
+    --mesh-1: #38bdf8; /* Light Sky Blue */
+    --mesh-2: #c084fc; /* Purple Fuchsia */
+    --mesh-3: #fb7185; /* Rose Pink */
+    --mesh-4: #fcd34d; /* Sunrise Gold */
+    
+    /* Glass Properties */
+    --glass-bg: rgba(255, 255, 255, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.8);
+    --glass-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.1);
+    --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+    
+    /* Typography */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-accent: #6366f1;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+::selection {
+    background: var(--mesh-2);
+    color: white;
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { 
+    background: linear-gradient(180deg, var(--mesh-1), var(--mesh-2)); 
+    border-radius: 20px; 
+    border: 3px solid var(--bg-base);
+}
+
+/* ==========================================================================
+   2. LIQUID MESH ANIMATED BACKGROUND
+   ========================================================================== */
+body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Mesh Container */
+.liquid-mesh {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background: #f1f5f9;
+    filter: blur(80px);
+}
+
+/* Animated Fluid Blobs */
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    mix-blend-mode: multiply;
+    animation: liquidFlow 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.8;
+}
+
+.blob-1 { width: 600px; height: 600px; background: var(--mesh-1); top: -10%; left: -10%; animation-delay: 0s; }
+.blob-2 { width: 700px; height: 700px; background: var(--mesh-2); top: 20%; right: -20%; animation-delay: -5s; animation-direction: alternate-reverse; }
+.blob-3 { width: 500px; height: 500px; background: var(--mesh-3); bottom: -20%; left: 20%; animation-duration: 25s; }
+.blob-4 { width: 650px; height: 650px; background: var(--mesh-4); top: 30%; left: 40%; animation-duration: 18s; animation-delay: -10s; }
+
+@keyframes liquidFlow {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+    33% { transform: translate(10vw, 10vh) scale(1.1) rotate(90deg); border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    66% { transform: translate(-5vw, 15vh) scale(0.9) rotate(180deg); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+    100% { transform: translate(0, 0) scale(1) rotate(360deg); border-radius: 50% 50% 40% 60% / 50% 60% 40% 50%; }
+}
+
+/* ==========================================================================
+   3. Glass Panel
+   ========================================================================== */
+.glass-panel {
+    width: 100%;
+    max-width: 1100px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(40px) saturate(150%);
+    -webkit-backdrop-filter: blur(40px) saturate(150%);
+    border: 1px solid var(--glass-border);
+    border-radius: 40px;
+    padding: 70px;
+    text-align: center;
+    box-shadow: var(--glass-shadow), var(--glass-highlight);
+    animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    position: relative;
+}
+
+/* Subtle Inner Glow */
+.glass-panel::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 40px; padding: 2px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.1) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(60px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ==========================================================================
+   4. TYPOGRAPHY & GRADIENT HEADERS
+   ========================================================================== */
+header { margin-bottom: 50px; }
+
+header h1 {
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-accent) 50%, var(--mesh-3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+    background-size: 200% auto;
+    animation: gradientText 6s linear infinite;
+}
+
+@keyframes gradientText {
+    to { background-position: 200% center; }
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   5. INTERACTIVE DROPZONE & BIG PREVIEW UI
+   ========================================================================== */
+.drop-zone {
+    background: rgba(255, 255, 255, 0.5);
+    border: 3px dashed rgba(99, 102, 241, 0.3);
+    border-radius: 32px;
+    padding: 70px 30px;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-bottom: 40px;
+    box-shadow: inset 0 0 40px rgba(255,255,255,0.5);
+}
+
+.drop-zone:hover {
+    border-color: var(--text-accent);
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1), inset 0 0 20px rgba(255,255,255,0.8);
+    transform: translateY(-4px);
+}
+
+.btn-select {
+    display: inline-block;
+    background: #ffffff;
+    color: var(--text-accent);
+    padding: 22px 60px;
+    border-radius: 100px;
+    font-weight: 900;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 15px 35px rgba(99, 102, 241, 0.15), inset 0 2px 0 rgba(255,255,255,1);
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.btn-select:hover {
+    transform: translateY(-6px) scale(1.02);
+    background: linear-gradient(135deg, var(--text-accent) 0%, var(--mesh-2) 100%);
+    color: #ffffff;
+    box-shadow: 0 25px 50px rgba(99, 102, 241, 0.3);
+    border-color: transparent;
+}
+
+.file-status {
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* MAMMOTH LIVE PREVIEW (GAMBAR SUPER BESAR) */
+.preview-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.preview-card {
+    width: 220px; /* Diperbesar drastis untuk presentasi Lomba */
+    height: 220px;
+    border-radius: 28px;
+    padding: 8px;
+    background: linear-gradient(135deg, var(--mesh-1), var(--mesh-2), var(--mesh-3), var(--mesh-4));
+    background-size: 300% 300%;
+    animation: popScale 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, gradientBorder 4s ease infinite;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(40px) scale(0.8);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.preview-card:hover {
+    transform: translateY(-20px) scale(1.08) rotate(3deg) !important;
+    box-shadow: 0 40px 80px rgba(99, 102, 241, 0.3);
+    z-index: 10;
+}
+
+.preview-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 22px;
+    border: 4px solid #ffffff;
+}
+
+@keyframes popScale {
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes gradientBorder {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ==========================================================================
+   6. PREMIUM SUBMIT BUTTON
+   ========================================================================== */
+.btn-primary {
+    background: var(--text-primary);
+    color: white;
+    border: none;
+    padding: 24px 70px;
+    border-radius: 100px;
+    font-weight: 900;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    width: 100%;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::after {
+    content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: 0.5s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.35);
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-accent) 100%);
+}
+
+.btn-primary:hover::after { left: 100%; }
+
+/* ==========================================================================
+   7. SERVER GALLERY GRID & 3D HOVER EFFECT
+   ========================================================================== */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px;
+    margin: 60px 0;
+}
+
+.gallery-item {
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 1);
+    border-radius: 36px;
+    padding: 24px;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05), inset 0 2px 0 rgba(255,255,255,0.8);
+    position: relative;
+}
+
+.gallery-item:hover { 
+    transform: translateY(-20px);
+    border-color: var(--text-accent);
+    box-shadow: 0 40px 80px rgba(99, 102, 241, 0.2);
+    background: #ffffff;
+}
+
+.gallery-img {
+    width: 100%;
+    height: 250px;
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    position: relative;
+    background: #f1f5f9;
+}
+
+.gallery-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.gallery-item:hover .gallery-img img {
+    transform: scale(1.15) rotate(-3deg);
+}
+
+.item-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 30px;
+    letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   8. ACTION BUTTONS (UNDUH & HAPUS)
+   ========================================================================== */
+.btn-group { display: flex; gap: 15px; }
+
+.btn-action {
+    flex: 1; text-align: center; padding: 18px 10px; font-size: 14px; font-weight: 800;
+    border-radius: 20px; text-decoration: none; transition: 0.3s ease; text-transform: uppercase; letter-spacing: 1.5px;
+}
+
+/* Hover effect membesar */
+.btn-dl { background: #ecfdf5; color: #059669; border: 2px solid #a7f3d0; }
+.btn-dl:hover { background: #059669; color: #ffffff; box-shadow: 0 15px 30px rgba(5, 150, 105, 0.3); transform: translateY(-4px);}
+
+.btn-del { background: #fff1f2; color: #e11d48; border: 2px solid #fecdd3; }
+.btn-del:hover { background: #e11d48; color: #ffffff; box-shadow: 0 15px 30px rgba(225, 29, 72, 0.3); transform: translateY(-4px);}
+
+.btn-back { 
+    display: inline-block; background: #ffffff; color: var(--text-primary); padding: 24px 80px; 
+    border-radius: 100px; font-weight: 900; text-decoration: none; transition: 0.4s; 
+    border: 2px solid rgba(15, 23, 42, 0.1); text-transform: uppercase; letter-spacing: 3px; margin-top: 40px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
+.btn-back:hover { background: var(--text-primary); color: #ffffff; box-shadow: 0 25px 50px rgba(15, 23, 42, 0.2); transform: translateY(-5px);}
+/* ==========================================================================
+   9. FULLSCREEN LIGHTBOX (PREVIEW KLIK GAMBAR)
+   ========================================================================== */
+.preview-card img, .gallery-img img {
+    cursor: zoom-in; /* Mengubah kursor jadi ikon zoom */
+}
+
+/* Latar Belakang Gelap Kaca */
+.lightbox-modal {
+    display: none; /* Sembunyi secara default */
+    position: fixed;
+    z-index: 9999;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.4s ease;
+}
+
+/* Class saat aktif/muncul */
+.lightbox-modal.active {
+    display: flex; opacity: 1;
+}
+
+/* Gambar di dalam Modal */
+.lightbox-content {
+    max-width: 90%; max-height: 90vh;
+    border-radius: 24px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    transform: scale(0.7); /* Mulai dari kecil */
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    object-fit: contain;
+}
+
+/* Animasi Membal saat Aktif */
+.lightbox-modal.active .lightbox-content {
+    transform: scale(1);
+}
+
+/* Tombol Close (X) */
+.lightbox-close {
+    position: absolute;
+    top: 30px; right: 40px;
+    font-size: 50px; color: #ffffff;
+    cursor: pointer; font-weight: 300;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 20px rgba(255,255,255,0.5);
+    z-index: 10000;
+}
+
+.lightbox-close:hover {
+    color: var(--mesh-3); /* Berubah jadi Rose Pink */
+    transform: scale(1.2) rotate(90deg);
+}

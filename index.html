@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holographic Pearl - Studio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="liquid-mesh">
+    <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div><div class="blob blob-4"></div>
+</div>
+
+<div class="glass-panel">
+    <header>
+        <h1>PEARL SYNC STUDIO</h1>
+        <p>Ekosistem Aset Visual Masa Depan</p>
+    </header>
+
+    <form action="upload.php" method="post" enctype="multipart/form-data">
+        <div class="drop-zone">
+            <label for="filesToUpload" class="btn-select">Pilih Aset Visual Tinggi</label>
+            <input type="file" name="filesToUpload[]" id="filesToUpload" accept="image/*" multiple onchange="renderPreview()">
+            
+            <div class="file-status" id="status-text">Tahan tombol <strong>CTRL</strong> untuk multiselect resolusi tinggi.</div>
+            
+            <div class="preview-grid" id="preview-grid"></div>
+        </div>
+        <button type="submit" name="submit" class="btn-primary">Inisiasi Sinkronisasi Awan</button>
+    </form>
+</div>
+
+<div class="lightbox-modal" id="lightbox" onclick="closeLightbox(event)">
+    <span class="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+    <img class="lightbox-content" id="lightbox-img" src="" alt="Enlarged Preview">
+</div>
+
+<script>
+    // Fungsi Menampilkan Grid Preview
+    function renderPreview() {
+        const grid = document.getElementById('preview-grid');
+        const statusText = document.getElementById('status-text');
+        grid.innerHTML = ''; 
+        const files = document.getElementById('filesToUpload').files;
+
+        if (files.length > 0) {
+            statusText.innerHTML = "<span style='color: #6366f1; font-weight: 900; font-size: 22px;'>" + files.length + " Aset Visual</span> dikunci dan bersiap diunggah. <br><small style='color:#64748b; font-size:13px;'>(Klik gambar untuk melihat ukuran penuh)</small>";
+            
+            Array.from(files).forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const card = document.createElement('div');
+                        card.className = 'preview-card';
+                        card.style.animationDelay = `${index * 0.15}s`; 
+                        
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        
+                        // Menambahkan event klik untuk membesarkan gambar
+                        img.onclick = function() { openLightbox(this.src); };
+                        
+                        card.appendChild(img);
+                        grid.appendChild(card);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+        } else {
+            statusText.innerHTML = "Tahan tombol <strong>CTRL</strong> untuk multiselect resolusi tinggi.";
+        }
+    }
+
+    // Fungsi Membuka Lightbox Modal
+    function openLightbox(imageSrc) {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        lightboxImg.src = imageSrc;
+        lightbox.classList.add('active');
+    }
+
+    // Fungsi Menutup Lightbox Modal
+    function closeLightbox(event) {
+        // Hanya tutup jika yang diklik adalah background hitam atau tombol X (bukan gambarnya)
+        if (event.target.id === 'lightbox' || event.target.className.includes('lightbox-close')) {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+    }
+</script>
+
+</body>
+</html>
